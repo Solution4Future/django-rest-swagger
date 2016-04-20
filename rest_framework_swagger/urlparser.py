@@ -52,7 +52,7 @@ class UrlParser(object):
 
         return filtered_list
 
-    def get_top_level_apis(self, apis):
+    def get_top_level_apis(self, apis, nested_level=1):
         """
         Returns the 'top level' APIs (ie. swagger 'resources')
 
@@ -69,18 +69,20 @@ class UrlParser(object):
                 continue
             root_paths.add(path_base)
 
-        top_level_apis = self.__filter_top_level_apis__(root_paths)
+        top_level_apis = self.__filter_top_level_apis__(
+            root_paths, nested_level)
 
         return sorted(top_level_apis, key=self.__get_last_element__)
 
-    def __filter_top_level_apis__(self, root_paths):
+    def __filter_top_level_apis__(self, root_paths, nested_level=1):
         """
         Returns top level APIs
         """
         filtered_paths = set()
         base_path = self.__get_base_path__(root_paths)
         for path in root_paths:
-            resource = path.replace(base_path, '').split('/')[0]
+            splited_path = path.replace(base_path, '').split('/')
+            resource = '/'.join(splited_path[0:nested_level])
             filtered_paths.add(base_path + resource)
 
         return list(filtered_paths)

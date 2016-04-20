@@ -147,7 +147,7 @@ class SwaggerResourcesView(APIDocView):
                                   exclude_namespaces=exclude_namespaces)
         authorized_apis = filter(lambda a: self.handle_resource_access(self.request, a['pattern']), apis)
         authorized_apis_list = list(authorized_apis)
-        resources = urlparser.get_top_level_apis(authorized_apis_list)
+        resources = urlparser.get_top_level_apis(authorized_apis_list, rfs.SWAGGER_SETTINGS.get('nested_level', 1))
         return resources
 
 
