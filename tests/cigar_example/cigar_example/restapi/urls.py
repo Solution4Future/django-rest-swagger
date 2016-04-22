@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 from rest_framework.routers import DefaultRouter
 
 from cigar_example.restapi import views as views
+from django.conf import settings
 
 
 router = DefaultRouter()
@@ -24,5 +25,8 @@ urlpatterns = patterns(
     url(r'^mix_cigars_in_jambalaya/$', views.mix_cigars_in_jambalaya, name='mix-cigars-jambalaya'),
     url(r'^custom_create/$', views.create_cigar2, name='custom-create-cigar'),
 )
+
+if getattr(settings, 'ADD_BASE_VIEW', False) is True:
+    urlpatterns += [url(r'^$', views.base_view, name='base-api-url')]
 
 urlpatterns += router.urls

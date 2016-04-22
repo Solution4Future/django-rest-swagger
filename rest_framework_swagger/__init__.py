@@ -6,7 +6,7 @@ DEFAULT_SWAGGER_SETTINGS = {
     'api_version': '',
     'api_path': '/',
     'api_key': '',
-    'nested_level': 1,
+    'nested_level': slice(0, 1),
     'token_type': 'Token',
     'enabled_methods': ['get', 'post', 'put', 'patch', 'delete'],
     'is_authenticated': False,

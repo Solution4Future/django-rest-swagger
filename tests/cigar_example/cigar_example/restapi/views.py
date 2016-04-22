@@ -283,3 +283,8 @@ def create_cigar2(request):
         return Response(out_serializer.data,
                         status=status.HTTP_201_CREATED)
     return Response(in_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def base_view(request):
+   return Response() 
