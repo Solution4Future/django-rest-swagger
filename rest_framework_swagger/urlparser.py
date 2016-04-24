@@ -14,7 +14,7 @@ from .apidocview import APIDocView
 
 class UrlParser(object):
 
-    def get_apis(self, patterns=None, urlconf=None, filter_path=None, exclude_url_names=[], exclude_namespaces=[]):
+    def get_apis(self, patterns=None, urlconf=None, filter_path=None, exclude_url_names=[], exclude_namespaces=[], nested_level=slice(0, 1)):
         """
         Returns all the DRF APIViews found in the project URLs
 
@@ -39,16 +39,27 @@ class UrlParser(object):
             exclude_namespaces=exclude_namespaces,
         )
         if filter_path is not None:
-            return self.get_filtered_apis(apis, filter_path)
+            return self.get_filtered_apis(
+                apis,
+                filter_path,
+                nested_level=nested_level
+            )
 
         return apis
 
-    def get_filtered_apis(self, apis, filter_path):
+    def get_filtered_apis(self, apis, filter_path, nested_level=slice(0, 1)):
         filtered_list = []
+        filter_path_levels = filter_path.count('/')
+        stop = nested_level.stop - 1
+        is_cropped = filter_path_levels < stop
 
         for api in apis:
-            if filter_path in api['path'].strip('/'):
-                filtered_list.append(api)
+            path = api['path'].strip('/')
+            if filter_path not in path:
+                continue
+            if is_cropped and path.count('/') >= stop:
+                continue
+            filtered_list.append(api)
 
         return filtered_list
 
