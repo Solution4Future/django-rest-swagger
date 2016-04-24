@@ -12,6 +12,7 @@ Example:
         'exclude_namespaces': [],
         'api_version': '0.1',
         'api_path': '/',
+        'nested_level': slice(0, 1),
         'enabled_methods': [
             'get',
             'post',
@@ -57,6 +58,19 @@ path to your api. url protocol and domain is taken from django settings, so do n
 
 Defaults to :code:`'/'`
 
+nested_level
+------------------------
+sometimes routes (in example, nested Router from django rest extended) generate useless base endpoints :code:`'^$'`. In result show only one tag with 'api/' and show all endpoints in one group. Value nested_level can controled tags with begin and end of slash. In example, if you have endpoints:
+
+* /api/foo/
+* /api/foo/bar/
+* /api/bar/
+* /api/
+
+In :code:`nested_level = slice(0, 1)` show only 'api' tags. But if you set :code:`nested_level = slice(1, 2)` then you will get 'foo' and 'bar' tags ('api' dispeared because we have condition to crop first slash to second slash).
+
+Defaults to :code:`slice(0, 1)`
+
 api_key
 ------------------------
 
@@ -70,8 +84,6 @@ base_path
 the url to where your main Swagger documentation page will live without the protocol. Optional.
 
 If not provided, it will generate the base_path from the :code:`request.get_host()` method.
-
-doc_expansion
 -----------------------
 
 The docExpansion parameter as defined in the Swagger UI spec. Potential values include "none", "list", or "full".
