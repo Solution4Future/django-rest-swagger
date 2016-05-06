@@ -1,4 +1,4 @@
-VERSION = '0.3.5'
+VERSION = '0.3.6'
 
 DEFAULT_SWAGGER_SETTINGS = {
     'exclude_url_names': [],
@@ -7,6 +7,7 @@ DEFAULT_SWAGGER_SETTINGS = {
     'api_path': '/',
     'api_key': '',
     'nested_level': slice(0, 1),
+    'relative_paths': False,
     'token_type': 'Token',
     'enabled_methods': ['get', 'post', 'put', 'patch', 'delete'],
     'is_authenticated': False,
